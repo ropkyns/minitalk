@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: palu <palu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/13 17:13:10 by palu              #+#    #+#             */
-/*   Updated: 2024/04/18 16:27:31 by palu             ###   ########.fr       */
+/*   Created: 2024/04/18 16:51:47 by palu              #+#    #+#             */
+/*   Updated: 2024/04/18 18:56:26 by palu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,14 @@ void	ft_send_bits(int pid, char i)
 			kill(pid, SIGUSR2);
 		usleep(100);
 		bit++;
+	}
+}
+
+static void	message_reception(int signal)
+{
+	if (signal == SIGUSR2)
+	{
+		ft_printf("message received");
 	}
 }
 
