@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: palu <palu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:13:00 by palu              #+#    #+#             */
-/*   Updated: 2024/04/13 19:22:59 by palu             ###   ########.fr       */
+/*   Updated: 2024/04/23 17:53:24 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	sighandler(int sig)
 	{
 		ft_printf("%c", i);
 		bit = 0;
-		i = 0;	
+		i = 0;
 	}
 }
 
-int		main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	int		pid;
 

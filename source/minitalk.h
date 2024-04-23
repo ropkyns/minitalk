@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: palu <palu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:47:53 by palu              #+#    #+#             */
-/*   Updated: 2024/04/18 16:57:05 by palu             ###   ########.fr       */
+/*   Updated: 2024/04/23 17:52:56 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 # define MINITALK_H
 
-#include "../ft_printf/ft_printf.h"
-#include <signal.h>
+# include "../ft_printf/ft_printf.h"
+# include <signal.h>
 
 #endif

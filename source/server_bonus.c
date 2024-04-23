@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: palu <palu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:51:51 by palu              #+#    #+#             */
-/*   Updated: 2024/04/19 16:02:24 by palu             ###   ########.fr       */
+/*   Updated: 2024/04/23 15:48:26 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ void	sighandler(int sig, siginfo_t *info, void *ptr)
 	{
 		ft_printf("%c", i);
 		bit = 0;
-		i = 0;	
+		i = 0;
 		kill(info->si_pid, SIGUSR2);
 	}
 }
 
-int		main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	int					pid;
 	struct sigaction	signal;

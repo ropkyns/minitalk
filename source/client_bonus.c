@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: palu <palu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:51:47 by palu              #+#    #+#             */
-/*   Updated: 2024/04/18 18:56:26 by palu             ###   ########.fr       */
+/*   Updated: 2024/04/23 15:48:04 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_atoi(const char *str)
 void	ft_send_bits(int pid, char i)
 {
 	int		bit;
-	
+
 	bit = 0;
 	while (bit < 8)
 	{
@@ -62,7 +62,7 @@ static void	message_reception(int signal)
 	}
 }
 
-int		main (int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	int		pid;
 	int		i;
@@ -70,7 +70,7 @@ int		main (int argc, char **argv)
 	if (argc != 3)
 	{
 		ft_printf("Error, wrong amount of argument\n");
-		ft_printf("Try like this : ./client [PID] [\"message you want to send to the server\"]\n");
+		ft_printf("Try like this : ./client [PID] [\"Your message\"]\n");
 		return (1);
 	}
 	i = 0;
