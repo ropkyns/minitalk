@@ -6,7 +6,7 @@
 #    By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/23 15:54:37 by paulmart          #+#    #+#              #
-#    Updated: 2024/04/23 18:34:11 by paulmart         ###   ########.fr        #
+#    Updated: 2024/04/29 18:07:49 by paulmart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ RM					= rm -f
 HEADER				= -I inc
 
 start:
-					$(MAKE) -C $(PRINTF_DIR)
+							$(MAKE) -C $(PRINTF_DIR)
 
 all:				$(NAME_C) $(NAME_S)
 
@@ -59,7 +59,7 @@ $(NAME_SB):			$(OBJS_SB)
 
 clean:
 							$(RM) $(OBJS_C) $(OBJS_S) $(OBJS_CB) $(OBJS_SB)
-							$(MAKE) clean -C (PRINTF_DIR)
+							$(MAKE) clean -C $(PRINTF_DIR)
 
 fclean:				clean
 							$(RM) $(NAME_C) $(NAME_S) $(NAME_CB) $(NAME_SB)

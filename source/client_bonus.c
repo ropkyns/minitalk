@@ -6,11 +6,27 @@
 /*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:51:47 by palu              #+#    #+#             */
-/*   Updated: 2024/04/23 15:48:04 by paulmart         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:06:15 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+char	*ft_strchr( const char *s, int c)
+{
+	char	*dup;
+	size_t	i;
+
+	dup = (char *)s;
+	i = 0;
+	while (i < ft_strlen(dup) + 1)
+	{
+		if (*(dup + i) == (char)c)
+			return (dup + i);
+		i++;
+	}
+	return (NULL);
+}
 
 int	ft_atoi(const char *str)
 {
@@ -43,12 +59,13 @@ void	ft_send_bits(int pid, char i)
 	int		bit;
 
 	bit = 0;
-	while (bit < 8)
+	while (bit < 32)
 	{
-		if ((i & (0x01 << bit)) != 0)
+		if (i & 0x01)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
+		bit = bit >> 1;
 		usleep(100);
 		bit++;
 	}
@@ -56,10 +73,10 @@ void	ft_send_bits(int pid, char i)
 
 static void	message_reception(int signal)
 {
-	if (signal == SIGUSR2)
-	{
+	if (signal == SIGUSR1)
 		ft_printf("message received");
-	}
+	else
+		ft_printf("message received");
 }
 
 int	main(int argc, char **argv)
@@ -75,8 +92,12 @@ int	main(int argc, char **argv)
 	}
 	i = 0;
 	pid = ft_atoi(argv[1]);
+	if (pid <= 0)
+		return (-1);
 	while (argv[2][i] != '\0')
 	{
+		signal(SIGUSR1, message_reception);
+		signal(SIGUSR2, message_reception);
 		ft_send_bits(pid, argv[2][i]);
 		i++;
 	}
