@@ -3,29 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: palu <palu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:51:47 by palu              #+#    #+#             */
-/*   Updated: 2024/04/29 18:06:15 by paulmart         ###   ########.fr       */
+/*   Updated: 2024/04/30 16:57:32 by palu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-char	*ft_strchr( const char *s, int c)
+int	ft_check(char *s, char *c)
 {
-	char	*dup;
 	size_t	i;
+	size_t	j;
 
-	dup = (char *)s;
 	i = 0;
-	while (i < ft_strlen(dup) + 1)
+	j = 0;
+	while (s[j])
 	{
-		if (*(dup + i) == (char)c)
-			return (dup + i);
-		i++;
+		while (s[j] != c[i] && c[i])
+			i++;
+		if (s[j] != c[i])
+			return (1);
+		i = 0;
+		j++;
 	}
-	return (NULL);
+	return (0);
 }
 
 int	ft_atoi(const char *str)
@@ -54,29 +57,26 @@ int	ft_atoi(const char *str)
 	return (nb * signe);
 }
 
-void	ft_send_bits(int pid, char i)
+void	ft_send_bits(int pid, char c)
 {
 	int		bit;
 
 	bit = 0;
-	while (bit < 32)
+	while (bit < 8)
 	{
-		if (i & 0x01)
+		if ((c & (0x01 << bit)))
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		bit = bit >> 1;
-		usleep(100);
+		usleep(500);
 		bit++;
 	}
 }
 
 static void	message_reception(int signal)
 {
-	if (signal == SIGUSR1)
-		ft_printf("message received");
-	else
-		ft_printf("message received");
+	if (signal == SIGUSR2)
+		ft_printf("message received\n");
 }
 
 int	main(int argc, char **argv)
@@ -84,20 +84,20 @@ int	main(int argc, char **argv)
 	int		pid;
 	int		i;
 
-	if (argc != 3)
+	if (argc != 3 || ft_check(argv[1], "0123456789"))
 	{
-		ft_printf("Error, wrong amount of argument\n");
-		ft_printf("Try like this : ./client [PID] [\"Your message\"]\n");
+		ft_printf("Error, try like this : ./client [PID] [\"message\"]\n");
 		return (1);
 	}
-	i = 0;
+	signal(SIGUSR1, &message_reception);
+	signal(SIGUSR2, message_reception);
+
 	pid = ft_atoi(argv[1]);
 	if (pid <= 0)
-		return (-1);
+		return (1);
+	i = 0;
 	while (argv[2][i] != '\0')
 	{
-		signal(SIGUSR1, message_reception);
-		signal(SIGUSR2, message_reception);
 		ft_send_bits(pid, argv[2][i]);
 		i++;
 	}

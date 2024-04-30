@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+         #
+#    By: palu <palu@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/23 15:54:37 by paulmart          #+#    #+#              #
-#    Updated: 2024/04/29 18:07:49 by paulmart         ###   ########.fr        #
+#    Updated: 2024/04/24 11:49:50 by palu             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ RM					= rm -f
 HEADER				= -I inc
 
 start:
-							$(MAKE) -C $(PRINTF_DIR)
+					$(MAKE) -C $(PRINTF_DIR)
 
 all:				$(NAME_C) $(NAME_S)
 
