@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: palu <palu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:51:47 by palu              #+#    #+#             */
-/*   Updated: 2024/04/30 16:57:32 by palu             ###   ########.fr       */
+/*   Updated: 2024/05/01 16:16:04 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	signal(SIGUSR1, &message_reception);
-	signal(SIGUSR2, message_reception);
-
+	signal(SIGUSR2, &message_reception);
 	pid = ft_atoi(argv[1]);
 	if (pid <= 0)
 		return (1);
