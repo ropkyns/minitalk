@@ -6,29 +6,15 @@
 /*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:51:47 by palu              #+#    #+#             */
-/*   Updated: 2024/05/01 16:16:04 by paulmart         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:35:25 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int	ft_check(char *s, char *c)
+void	errorh(void)
 {
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	while (s[j])
-	{
-		while (s[j] != c[i] && c[i])
-			i++;
-		if (s[j] != c[i])
-			return (1);
-		i = 0;
-		j++;
-	}
-	return (0);
+	ft_printf("An error has occurred. You may check the server PID");
 }
 
 int	ft_atoi(const char *str)
@@ -65,9 +51,11 @@ void	ft_send_bits(int pid, char c)
 	while (bit < 8)
 	{
 		if ((c & (0x01 << bit)))
-			kill(pid, SIGUSR1);
+			if (kill(pid, SIGUSR1) == -1)
+				errorh();
 		else
-			kill(pid, SIGUSR2);
+			if (kill(pid, SIGUSR2) == -1)
+				errorh();
 		usleep(500);
 		bit++;
 	}
@@ -84,7 +72,7 @@ int	main(int argc, char **argv)
 	int		pid;
 	int		i;
 
-	if (argc != 3 || ft_check(argv[1], "0123456789"))
+	if (argc != 3)
 	{
 		ft_printf("Error, try like this : ./client [PID] [\"message\"]\n");
 		return (1);
