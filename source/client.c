@@ -6,7 +6,7 @@
 /*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:13:10 by palu              #+#    #+#             */
-/*   Updated: 2024/05/15 13:54:50 by paulmart         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:13:12 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,3 +99,4 @@ int	main(int argc, char **argv)
 	ft_send_bits(pid, '\n');
 	return (0);
 }
+/* https://github.com/arsalas/42_Cursus/tree/main/minitalk/tests */
