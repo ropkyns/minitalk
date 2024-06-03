@@ -6,7 +6,7 @@
 #    By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/23 15:54:37 by paulmart          #+#    #+#              #
-#    Updated: 2024/05/15 14:38:09 by paulmart         ###   ########.fr        #
+#    Updated: 2024/06/03 16:07:39 by paulmart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,16 +28,19 @@ PRINTF				= ft_printf/libftprintf.a
 RM					= rm -f
 HEADER				= -I inc
 
+all:				start $(NAME_C) $(NAME_S)
+
 start:
 					$(MAKE) -C $(PRINTF_DIR)
-
-all:				$(NAME_C) $(NAME_S)
 
 $(NAME_C):			$(OBJS_C)
 							$(CC) $(FLAGS) $(OBJS_C) $(HEADER) $(PRINTF) -o $(NAME_C)
 
 $(NAME_S):			$(OBJS_S)
 							$(CC) $(FLAGS) $(OBJS_S) $(HEADER) $(PRINTF) -o $(NAME_S)
+
+test:
+	@sh ./tests/test.sh
 
 clean:
 							$(RM) $(OBJS_C) $(OBJS_S)
