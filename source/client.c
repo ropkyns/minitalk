@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: palu <palu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:13:10 by palu              #+#    #+#             */
-/*   Updated: 2024/06/03 16:13:12 by paulmart         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:05:25 by palu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	ft_check(char *s, char *c)
 		i = 0;
 		j++;
 	}
+	if (ft_strlen(s) <= 0)
+		return (1);
 	return (0);
 }
 
@@ -57,30 +59,32 @@ int	ft_atoi(const char *str)
 	return (nb * signe);
 }
 
-void	ft_send_bits(int pid, char c)
+void	ft_send_bits(int pid, char *str)
 {
+	int		i;
 	int		bit;
+	char	message;
 
-	bit = 0;
-	while (bit < 8)
+	i = -1;
+	while (str[++i] != '\0')
 	{
-		if ((c & (0x01 << bit)))
+		bit = 8;
+		while (--bit >= 0)
 		{
-			kill(pid, SIGUSR1);
+			message = (str[i] >> bit) & 1;
+			if (message == 1)
+				kill(pid, SIGUSR1);
+			else
+				kill(pid, SIGUSR2);
+			usleep(100);
 		}
-		else
-		{
-			kill(pid, SIGUSR2);
-		}
-		usleep(500);
-		bit++;
+		
 	}
 }
 
 int	main(int argc, char **argv)
 {
 	int		pid;
-	int		i;
 
 	if (argc != 3 || ft_check(argv[1], "0123456789"))
 	{
@@ -88,15 +92,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	pid = ft_atoi(argv[1]);
-	if (pid <= 0)
-		return (1);
-	i = 0;
-	while (argv[2][i] != '\0')
-	{
-		ft_send_bits(pid, argv[2][i]);
-		i++;
-	}
-	ft_send_bits(pid, '\n');
+	ft_send_bits(pid, argv[2]);
+	ft_send_bits(pid, "\n");
 	return (0);
 }
-/* https://github.com/arsalas/42_Cursus/tree/main/minitalk/tests */
