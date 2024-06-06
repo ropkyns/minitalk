@@ -6,39 +6,46 @@
 /*   By: palu <palu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:13:00 by palu              #+#    #+#             */
-/*   Updated: 2024/06/04 16:50:39 by palu             ###   ########.fr       */
+/*   Updated: 2024/06/06 19:02:06 by palu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-static void	sighandler(int sig)
+void	sighandler(int sig, siginfo_t *siginfo, void *vd)
 {
-	static char	c;
-	static int	i;
+	static int	bit = 0;
+	static int	i = 0;
 
-	i++;
+	(void)siginfo;
+	(void)vd;
 	if (sig == SIGUSR1)
-		c = c | 1;
-	if (i == 8)
+		i |= (0x01 << bit);
+	bit++;
+	if (bit == 8)
 	{
-		ft_printf("%c", c);
-		c = 0;
+		ft_printf("%c", i);
+		bit = 0;
 		i = 0;
 	}
-	c = c << 1;
 }
 
 int	main(void)
 {
 	int		pid;
+	struct sigaction	sig;
 
 	pid = getpid();
 	ft_printf("server PID : %d\n", pid);
 	ft_printf("Waiting for message...\n");
-	signal(SIGUSR1, sighandler);
-	signal(SIGUSR2, sighandler);
+	sig.sa_flags = SA_SIGINFO;
+	sig.sa_sigaction = sighandler;
+	sigemptyset(&sig.sa_mask);
 	while (1)
+	{
+		sigaction(SIGUSR1, &sig, NULL);
+		sigaction(SIGUSR2, &sig, NULL);
 		pause ();
+	}
 	return (0);
 }

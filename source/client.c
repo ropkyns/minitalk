@@ -6,7 +6,7 @@
 /*   By: palu <palu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:13:10 by palu              #+#    #+#             */
-/*   Updated: 2024/06/04 17:05:25 by palu             ###   ########.fr       */
+/*   Updated: 2024/06/06 18:54:08 by palu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,32 +59,26 @@ int	ft_atoi(const char *str)
 	return (nb * signe);
 }
 
-void	ft_send_bits(int pid, char *str)
+void	ft_send_bits(int pid, char c)
 {
-	int		i;
 	int		bit;
-	char	message;
 
-	i = -1;
-	while (str[++i] != '\0')
+	bit = 0;
+	while (bit < 8)
 	{
-		bit = 8;
-		while (--bit >= 0)
-		{
-			message = (str[i] >> bit) & 1;
-			if (message == 1)
-				kill(pid, SIGUSR1);
-			else
-				kill(pid, SIGUSR2);
-			usleep(100);
-		}
-		
+		if (c & (0x01 << bit))
+			kill(pid, SIGUSR1);
+		else
+			kill(pid, SIGUSR2);
+		usleep(200);
+		bit++;
 	}
 }
 
 int	main(int argc, char **argv)
 {
 	int		pid;
+	int		i;
 
 	if (argc != 3 || ft_check(argv[1], "0123456789"))
 	{
@@ -92,7 +86,9 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	pid = ft_atoi(argv[1]);
-	ft_send_bits(pid, argv[2]);
-	ft_send_bits(pid, "\n");
+	i = -1;
+	while (argv[2][++i])
+		ft_send_bits(pid, argv[2][i]);
+	ft_send_bits(pid, '\n');
 	return (0);
 }
