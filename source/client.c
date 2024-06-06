@@ -6,7 +6,7 @@
 /*   By: palu <palu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:13:10 by palu              #+#    #+#             */
-/*   Updated: 2024/06/06 18:54:08 by palu             ###   ########.fr       */
+/*   Updated: 2024/06/06 19:44:06 by palu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	main(int argc, char **argv)
 {
 	int		pid;
 	int		i;
+	int		len;
 
 	if (argc != 3 || ft_check(argv[1], "0123456789"))
 	{
@@ -86,6 +87,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	pid = ft_atoi(argv[1]);
+	len = ft_strlen(argv[2]);
 	i = -1;
 	while (argv[2][++i])
 		ft_send_bits(pid, argv[2][i]);

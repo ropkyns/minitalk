@@ -6,7 +6,7 @@
 /*   By: palu <palu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:13:00 by palu              #+#    #+#             */
-/*   Updated: 2024/06/06 19:02:06 by palu             ###   ########.fr       */
+/*   Updated: 2024/06/06 20:18:14 by palu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,16 @@ void	sighandler(int sig, siginfo_t *siginfo, void *vd)
 int	main(void)
 {
 	int		pid;
-	struct sigaction	sig;
 
 	pid = getpid();
 	ft_printf("server PID : %d\n", pid);
 	ft_printf("Waiting for message...\n");
-	sig.sa_flags = SA_SIGINFO;
-	sig.sa_sigaction = sighandler;
-	sigemptyset(&sig.sa_mask);
+	sigaction(SIGUSR1,);
+	sigaction(SIGUSR2,);
 	while (1)
 	{
-		sigaction(SIGUSR1, &sig, NULL);
-		sigaction(SIGUSR2, &sig, NULL);
 		pause ();
 	}
 	return (0);
 }
+/* https://github.com/Ysoroko/minitalk/tree/master */
