@@ -6,7 +6,7 @@
 /*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:04:28 by ropkyns           #+#    #+#             */
-/*   Updated: 2024/01/09 16:18:14 by paulmart         ###   ########.fr       */
+/*   Updated: 2024/06/07 17:46:48 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ void	ft_put_unsigned_nbr(unsigned int nb);
 int		ft_print_hexa(unsigned int hex);
 int		ft_print_hexa_caps(unsigned int hex);
 int		ft_len_hexa(unsigned int hex);
+int		ft_atoi(const char *str);
 
 #endif
