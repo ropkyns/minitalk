@@ -6,7 +6,7 @@
 /*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 15:11:45 by ropkyns           #+#    #+#             */
-/*   Updated: 2024/06/07 17:46:33 by paulmart         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:34:48 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,31 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	return (nb * signe);
+}
+
+void	ft_bzero(void *str, size_t n)
+{
+	size_t			i;
+	unsigned char	*my_str;
+
+	i = 0;
+	my_str = (unsigned char *)(str);
+	while (i < n)
+	{
+		my_str[i] = '\0';
+		i++;
+	}
+}
+
+void	*ft_calloc_exit(size_t count, size_t size)
+{
+	size_t	total_size;
+	void	*ret;
+
+	total_size = size * count;
+	ret = malloc(total_size);
+	if (!ret)
+		exit(EXIT_FAILURE);
+	ft_bzero(ret, total_size);
+	return (ret);
 }

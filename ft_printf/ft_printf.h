@@ -6,7 +6,7 @@
 /*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:04:28 by ropkyns           #+#    #+#             */
-/*   Updated: 2024/06/07 17:46:48 by paulmart         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:35:14 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,7 @@ int		ft_print_hexa(unsigned int hex);
 int		ft_print_hexa_caps(unsigned int hex);
 int		ft_len_hexa(unsigned int hex);
 int		ft_atoi(const char *str);
+void	ft_bzero(void *str, size_t n);
+void	*ft_calloc_exit(size_t count, size_t size);
 
 #endif

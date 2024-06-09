@@ -5,73 +5,73 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/13 17:13:00 by palu              #+#    #+#             */
-/*   Updated: 2024/06/07 17:58:25 by paulmart         ###   ########.fr       */
+/*   Created: 2024/06/09 15:19:26 by paulmart          #+#    #+#             */
+/*   Updated: 2024/06/09 16:34:37 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-
-int	recursive_power(int nb, int power)
-{
-	if (power < 0)
-		return (0);
-	else if (power == 0 && power == 0)
-		return (1);
-	else
-		return (nb * recursive_power(nb, power - 1));
-}
 
 static void	reset_var(int *len, char **str, int *i)
 {
 	*len = 0;
 	if (str)
 	{
-		ft_printf("%s\n", str);
+		ft_printf("%s\n", *str);
 		free(*str);
 		*str = 0;
 	}
 	*i = 0;
 }
 
-static void	len_str(int *bit, char **str, int *len, int signal)
+int	ft_recursive_power(int nb, int power)
+{
+	if (power < 0)
+		return (0);
+	else if (power == 0 && power == 0)
+		return (1);
+	else
+		return (nb * ft_recursive_power(nb, power - 1));
+}
+
+static void	get_strlen(int *curr_bit, char **str, int *received, int s)
 {
 	static int	lvalue = 0;
 
-	if (signal == SIGUSR1)
-		lvalue += recursive_power(2, *bit);
-	if (*bit == 31)
+	if (s == SIGUSR1)
+		lvalue += ft_recursive_power(2, *curr_bit);
+	if (*curr_bit == 31)
 	{
-		*str = malloc((lvalue + 1) * sizeof(char));
-		*bit = 0;
+		*received = 1;
+		*str = ft_calloc_exit(lvalue + 1, sizeof(char));
+		*curr_bit = 0;
 		lvalue = 0;
-		*len = 1;
 		return ;
 	}
-	(*bit)++;
+	(*curr_bit)++;
 }
 
-static void	sighandler(int signal)
+static void	ft_sighangdler(int signal)
 {
+	static int	int_char = 0;
 	static int	bit = 0;
-	static int	i = 0;
-	static int	char_int = 0;
 	static int	len = 0;
+	static int	i = 0;
 	static char	*str = 0;
 
 	if (!len)
-		len_str(&bit, &str, &len, signal);
+		get_strlen(&bit, &str, &len, signal);
 	else
 	{
 		if (signal == SIGUSR1)
-			char_int += recursive_power(2, bit);
+			int_char += ft_recursive_power(2, bit);
 		if (bit == 7)
 		{
-			str[i++] = char_int;
+			str[i++] = int_char;
 			bit = 0;
-			if (char_int == 0)
+			if (int_char == 0)
 				return (reset_var(&len, &str, &i));
-			char_int = 0;
+			int_char = 0;
 			return ;
 		}
 		bit++;
@@ -80,15 +80,13 @@ static void	sighandler(int signal)
 
 int	main(void)
 {
-	int		pid;
+	int	pid;
 
 	pid = (int)(getpid());
 	ft_printf("server PID : %d\n", pid);
 	ft_printf("Waiting for message...\n");
-	signal(SIGUSR1, sighandler);
-	signal(SIGUSR2, sighandler);
+	signal(SIGUSR1, ft_sighangdler);
+	signal(SIGUSR2, ft_sighangdler);
 	while (1)
-		pause ();
-	return (0);
+		usleep(100);
 }
-/* https://github.com/Ysoroko/minitalk/tree/master */

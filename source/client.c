@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/13 17:13:10 by palu              #+#    #+#             */
-/*   Updated: 2024/06/07 17:20:43 by paulmart         ###   ########.fr       */
+/*   Created: 2024/06/09 15:28:54 by paulmart          #+#    #+#             */
+/*   Updated: 2024/06/09 16:20:09 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,7 @@ static int	ft_check(char *s, char *c)
 	return (0);
 }
 
-static void	ft_send_strlen(int pid, int len)
-{
-	int	i;
-
-	i = -1;
-	while (++i < 32)
-	{
-		if (len & 0x01)
-			kill(pid, SIGUSR2);
-		else
-			kill(pid, SIGUSR1);
-		len = len >> 1;
-		usleep(100);
-	}
-}
-
-static void	ft_send_bits(int pid, unsigned char c)
+static void	ft_send_next_char_bit_by_bit(unsigned char c, int pid)
 {
 	int	i;
 
@@ -57,10 +41,26 @@ static void	ft_send_bits(int pid, unsigned char c)
 	while (++i < 8)
 	{
 		if (c & 0x01)
-			kill(pid, SIGUSR2);
-		else
 			kill(pid, SIGUSR1);
+		else
+			kill(pid, SIGUSR2);
 		c = c >> 1;
+		usleep(100);
+	}
+}
+
+static void	send_strlen(int len, int pid)
+{
+	int	i;
+
+	i = -1;
+	while (++i < 32)
+	{
+		if (len & 0x01)
+			kill(pid, SIGUSR1);
+		else
+			kill(pid, SIGUSR2);
+		len = len >> 1;
 		usleep(100);
 	}
 }
@@ -68,22 +68,20 @@ static void	ft_send_bits(int pid, unsigned char c)
 int	main(int argc, char **argv)
 {
 	int		pid;
-	int		i;
+	char	*str_to_send;
 	int		len;
-	char	*str;
+	int		i;
 
 	if (argc != 3 || ft_check(argv[1], "0123456789"))
-	{
-		ft_printf("Error, try like this : ./client [PID] [\"message\"]\n");
-		return (1);
-	}
+		return (-1);
 	pid = ft_atoi(argv[1]);
-	str = argv[2];
-	len = ft_strlen(str);
-	ft_send_strlen(pid, len);
+	if (pid <= 0)
+		return (-1);
+	str_to_send = argv[2];
+	len = ft_strlen(str_to_send);
 	i = -1;
-	while (str[++i])
-		ft_send_bits(pid, str[i]);
-	ft_send_bits(pid, str[i]);
-	return (0);
+	send_strlen(len, pid);
+	while (str_to_send[++i])
+		ft_send_next_char_bit_by_bit(str_to_send[i], pid);
+	ft_send_next_char_bit_by_bit(str_to_send[i], pid);
 }

@@ -39,8 +39,6 @@ $(NAME_C):			$(OBJS_C)
 $(NAME_S):			$(OBJS_S)
 							$(CC) $(FLAGS) $(OBJS_S) $(HEADER) $(PRINTF) -o $(NAME_S)
 
-test:
-	@sh ./tests/test.sh
 
 clean:
 							$(RM) $(OBJS_C) $(OBJS_S)
